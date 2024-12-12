@@ -1,0 +1,19 @@
+# Python virtual environment
+venv/
+
+# Instance database
+instance/database.db
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test files
+test.py
+
+# Other unnecessary files
+.git
+.gitignore
+README.md

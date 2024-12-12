@@ -1,0 +1,43 @@
+# Use official Python runtime as base image
+FROM python:3.12.8-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set work directory in the container
+WORKDIR /app
+
+# Install system dependencies for OpenCV
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Upgrade pip
+RUN pip install --upgrade pip==24.3.1
+
+# Copy requirements file first to leverage Docker cache
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install NLTK and download necessary resources
+RUN python -m nltk.downloader punkt
+RUN python -m nltk.downloader punkt wordnet
+RUN python -m nltk.downloader punkt stopwords vader_lexicon
+
+# Copy the entire project
+COPY . .
+
+# Create a directory for results if it doesn't exist
+RUN mkdir -p /app/results
+
+# Optional: Specify the port your app runs on (change if needed)
+EXPOSE 8080
+
+# Use app.py as the entry point
+CMD ["python", "app.py"]

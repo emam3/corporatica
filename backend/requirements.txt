@@ -1,0 +1,10 @@
+flask
+flask-sqlalchemy
+matplotlib
+Werkzeug
+flask_static_digest
+opencv-python-headless
+nltk
+scikit-learn
+flask_cors
+pandas
